@@ -251,22 +251,68 @@ td {
 
 .actions {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   justify-content: flex-end;
 }
 
-.print-button {
+.print-button,
+.copy-button,
+.secondary-button {
   min-height: 44px;
   padding: 10px 22px;
-  border: 0;
   border-radius: 9px;
-  color: #fff;
-  background: var(--accent);
   font-weight: 700;
   cursor: pointer;
 }
 
-.print-button:hover {
+.print-button,
+.copy-button {
+  border: 1px solid var(--accent);
+  color: #fff;
+  background: var(--accent);
+}
+
+.print-button:hover,
+.copy-button:hover {
   background: var(--accent-dark);
+}
+
+.secondary-button {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: #fff;
+}
+
+.secondary-button:hover {
+  background: #eef4ff;
+}
+
+.new-estimate-button {
+  margin-right: auto;
+}
+
+.copy-status {
+  padding: 9px 12px;
+  border-radius: 9px;
+  color: #176b3a;
+  background: #eaf8ef;
+  font-weight: 700;
+}
+
+.manual-copy {
+  margin-top: 20px;
+}
+
+.manual-copy textarea {
+  min-height: 210px;
+  resize: vertical;
+}
+
+.manual-copy p {
+  margin: 10px 0 0;
+  color: var(--muted);
 }
 
 .print-only {
@@ -370,7 +416,18 @@ td {
     gap: 8px;
   }
 
-  .print-button {
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .new-estimate-button {
+    margin-right: 0;
+  }
+
+  .print-button,
+  .copy-button,
+  .secondary-button {
     width: 100%;
   }
 }

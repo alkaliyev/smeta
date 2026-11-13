@@ -110,8 +110,19 @@
     </section>
 
     <div class="actions no-print">
+      <button class="secondary-button new-estimate-button" id="new-estimate" type="button">Новая смета</button>
+      <button class="copy-button" id="copy-whatsapp" type="button">Скопировать для WhatsApp</button>
       <button class="print-button" id="print-estimate" type="button">Сохранить PDF</button>
+      <span class="copy-status" id="copy-status" role="status" hidden>Скопировано ✓</span>
     </div>
+
+    <section class="card manual-copy no-print" id="manual-copy" aria-labelledby="manual-copy-title" hidden>
+      <label class="field">
+        <span id="manual-copy-title">Текст для копирования</span>
+        <textarea id="manual-copy-text" readonly></textarea>
+      </label>
+      <p>Автоматическое копирование недоступно. Выделите текст и скопируйте его вручную.</p>
+    </section>
 
     <div class="print-signature print-only">Подпись ____________________</div>
   </main>
