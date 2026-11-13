@@ -53,11 +53,48 @@
         </table>
       </div>
       <button class="add-button" id="add-item" type="button">+ Добавить позицию</button>
+      <div class="calculation-settings">
+        <label class="field">
+          <span>Скидка, %</span>
+          <input type="text" id="discount-rate" inputmode="decimal" value="0">
+        </label>
+        <label class="field">
+          <span>НДС, %</span>
+          <input type="text" id="vat-rate" inputmode="decimal" value="0">
+        </label>
+        <label class="field">
+          <span>Валюта</span>
+          <select id="currency">
+            <option value="₸">₸</option>
+            <option value="₽">₽</option>
+            <option value="$">$</option>
+            <option value="€">€</option>
+          </select>
+        </label>
+      </div>
     </section>
 
-    <section class="total-card" aria-live="polite">
-      <span>Итого к оплате</span>
-      <strong id="grand-total">0 ₸</strong>
+    <section class="total-card" aria-label="Итоги сметы" aria-live="polite">
+      <div class="summary-row">
+        <span>Сумма</span>
+        <strong id="subtotal">0 ₸</strong>
+      </div>
+      <div class="summary-row" id="discount-row" hidden>
+        <span>Скидка</span>
+        <strong id="discount-total">0 ₸</strong>
+      </div>
+      <div class="summary-row" id="discounted-row" hidden>
+        <span>Сумма со скидкой</span>
+        <strong id="discounted-total">0 ₸</strong>
+      </div>
+      <div class="summary-row" id="vat-row" hidden>
+        <span>НДС</span>
+        <strong id="vat-total">0 ₸</strong>
+      </div>
+      <div class="summary-row grand-total-row">
+        <span>Итого к оплате</span>
+        <strong id="grand-total">0 ₸</strong>
+      </div>
     </section>
   </main>
 
