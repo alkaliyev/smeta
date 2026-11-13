@@ -13,6 +13,10 @@
       <p>Заполните реквизиты и позиции — суммы посчитаются автоматически.</p>
     </header>
 
+    <header class="print-header print-only">
+      <h1>Смета № <span id="print-estimate-number">—</span> от <span id="print-estimate-date"></span></h1>
+    </header>
+
     <section class="card" aria-labelledby="details-title">
       <h2 id="details-title">Реквизиты</h2>
       <div class="details-grid">
@@ -52,7 +56,7 @@
           <tbody id="items"></tbody>
         </table>
       </div>
-      <button class="add-button" id="add-item" type="button">+ Добавить позицию</button>
+      <button class="add-button no-print" id="add-item" type="button">+ Добавить позицию</button>
       <div class="calculation-settings">
         <label class="field">
           <span>Скидка, %</span>
@@ -96,6 +100,20 @@
         <strong id="grand-total">0 ₸</strong>
       </div>
     </section>
+
+    <section class="card comment-card" aria-labelledby="comment-title">
+      <label class="field comment-field">
+        <span id="comment-title">Комментарий</span>
+        <textarea id="comment" placeholder="Например: сроки выполнения и условия оплаты"></textarea>
+        <span class="print-comment print-only" id="print-comment">—</span>
+      </label>
+    </section>
+
+    <div class="actions no-print">
+      <button class="print-button" id="print-estimate" type="button">Сохранить PDF</button>
+    </div>
+
+    <div class="print-signature print-only">Подпись ____________________</div>
   </main>
 
   <template id="item-template">

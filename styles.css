@@ -29,7 +29,8 @@ body {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -90,7 +91,8 @@ h2 {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   min-height: 44px;
   padding: 10px 12px;
@@ -107,6 +109,7 @@ input::placeholder {
 
 input:focus,
 select:focus,
+textarea:focus,
 button:focus-visible {
   outline: 3px solid rgba(40, 100, 220, 0.2);
   outline-offset: 1px;
@@ -237,6 +240,39 @@ td {
   font-size: clamp(1.7rem, 4vw, 2.4rem);
 }
 
+.comment-card {
+  margin-top: 0;
+}
+
+.comment-field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.print-button {
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 9px;
+  color: #fff;
+  background: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background: var(--accent-dark);
+}
+
+.print-only {
+  display: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -332,5 +368,188 @@ td {
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .print-button {
+    width: 100%;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  :root,
+  body {
+    color: #000;
+    background: #fff;
+  }
+
+  body {
+    min-width: 0;
+    font-size: 10pt;
+  }
+
+  .page {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page-header,
+  .no-print,
+  .calculation-settings,
+  .remove-cell,
+  th:last-child {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  .print-header {
+    margin-bottom: 8mm;
+    text-align: center;
+  }
+
+  .print-header h1 {
+    margin: 0;
+    font-size: 18pt;
+  }
+
+  .card,
+  .total-card {
+    margin-bottom: 6mm;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  h2 {
+    margin-bottom: 3mm;
+    font-size: 12pt;
+  }
+
+  .details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3mm 10mm;
+  }
+
+  .field {
+    gap: 1mm;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    color: #000;
+    background: transparent;
+    appearance: none;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: transparent;
+  }
+
+  .table-wrap {
+    overflow: visible;
+  }
+
+  table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tbody {
+    display: table-row-group;
+  }
+
+  tr,
+  .item-row {
+    display: table-row;
+    break-inside: avoid;
+  }
+
+  th,
+  td {
+    display: table-cell;
+    width: auto;
+    padding: 2.5mm 2mm;
+    border: 1px solid #555;
+    color: #000;
+    vertical-align: middle;
+  }
+
+  th {
+    font-size: 9pt;
+  }
+
+  td::before {
+    display: none;
+  }
+
+  .positions-card {
+    break-inside: avoid;
+  }
+
+  .total-card {
+    width: 58%;
+    margin-left: auto;
+    border-left: 0;
+    break-inside: avoid;
+  }
+
+  .summary-row {
+    padding: 1.5mm 0;
+    font-size: 10pt;
+  }
+
+  .grand-total-row {
+    align-items: center;
+    flex-direction: row;
+    margin-top: 1mm;
+    padding-top: 2.5mm;
+    font-size: 11pt;
+  }
+
+  .grand-total-row strong {
+    color: #000;
+    font-size: 13pt;
+  }
+
+  .comment-card {
+    break-inside: avoid;
+  }
+
+  .comment-field textarea {
+    display: none;
+  }
+
+  .print-comment {
+    min-height: 8mm;
+    font-weight: 400;
+    white-space: pre-wrap;
+  }
+
+  .print-signature {
+    margin-top: 10mm;
+    font-weight: 600;
+    break-inside: avoid;
   }
 }

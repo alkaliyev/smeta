@@ -13,6 +13,12 @@ const vatRow = document.querySelector("#vat-row");
 const vatTotal = document.querySelector("#vat-total");
 const grandTotal = document.querySelector("#grand-total");
 const estimateDate = document.querySelector("#estimate-date");
+const estimateNumber = document.querySelector("#estimate-number");
+const comment = document.querySelector("#comment");
+const printEstimateButton = document.querySelector("#print-estimate");
+const printEstimateNumber = document.querySelector("#print-estimate-number");
+const printEstimateDate = document.querySelector("#print-estimate-date");
+const printComment = document.querySelector("#print-comment");
 
 function getToday() {
   const now = new Date();
@@ -41,6 +47,22 @@ function formatMoney(value) {
   });
 
   return `${formatted.replace(/[\u00a0\u202f]/g, " ")} ${currency.value}`;
+}
+
+function formatDateForPrint(value) {
+  const [year, month, day] = value.split("-");
+
+  if (!year || !month || !day) {
+    return "—";
+  }
+
+  return `${day}.${month}.${year}`;
+}
+
+function updatePrintDocument() {
+  printEstimateNumber.textContent = estimateNumber.value.trim() || "—";
+  printEstimateDate.textContent = formatDateForPrint(estimateDate.value);
+  printComment.textContent = comment.value.trim() || "—";
 }
 
 function updateTotals() {
@@ -128,6 +150,12 @@ addItemButton.addEventListener("click", () => addItem());
 discountRate.addEventListener("input", updateTotals);
 vatRate.addEventListener("input", updateTotals);
 currency.addEventListener("change", updateTotals);
+printEstimateButton.addEventListener("click", () => {
+  updatePrintDocument();
+  window.print();
+});
+window.addEventListener("beforeprint", updatePrintDocument);
 
 estimateDate.value = getToday();
+updatePrintDocument();
 addItem({ focus: false });
