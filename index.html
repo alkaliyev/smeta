@@ -8,121 +8,174 @@
 </head>
 <body>
   <main class="page">
-    <header class="page-header">
-      <h1>Смета за 5 минут</h1>
-      <p>Заполните реквизиты и позиции — суммы посчитаются автоматически.</p>
+    <header class="site-header no-print">
+      <a class="brand" href="#top" aria-label="К началу страницы">
+        <span class="brand-mark" aria-hidden="true">КП</span>
+        <span>КП / Конструктор предложений</span>
+      </a>
+      <button class="header-action" id="new-estimate" type="button">Новый документ</button>
+    </header>
+
+    <header class="page-header no-print" id="top">
+      <p class="eyebrow">Смета за 5 минут</p>
+      <h1>От задачи — к готовому предложению</h1>
+      <p class="hero-copy">Соберите услуги, зафиксируйте условия и получите аккуратное предложение для клиента.</p>
     </header>
 
     <header class="print-header print-only">
       <h1>Смета № <span id="print-estimate-number">—</span> от <span id="print-estimate-date"></span></h1>
     </header>
 
-    <section class="card" aria-labelledby="details-title">
-      <h2 id="details-title">Реквизиты</h2>
-      <div class="details-grid">
-        <label class="field">
-          <span>От кого</span>
-          <input type="text" id="from" autocomplete="organization" placeholder="Компания или имя">
-        </label>
-        <label class="field">
-          <span>Для кого</span>
-          <input type="text" id="to" placeholder="Клиент или организация">
-        </label>
-        <label class="field">
-          <span>Номер сметы</span>
-          <input type="text" id="estimate-number" inputmode="numeric" placeholder="Например, 001">
-        </label>
-        <label class="field">
-          <span>Дата</span>
-          <input type="date" id="estimate-date">
-        </label>
-      </div>
-    </section>
+    <div class="workspace">
+      <div class="form-column">
+        <section class="section-block" aria-labelledby="solution-title">
+          <div class="section-heading">
+            <span class="section-number">01</span>
+            <div>
+              <h2 id="solution-title">Подбор решения</h2>
+              <p>Задайте основу будущего предложения.</p>
+            </div>
+          </div>
+          <div class="solution-grid">
+            <div class="solution-intro">
+              <span class="solution-label">Формат</span>
+              <strong>Коммерческое предложение</strong>
+              <p>Структурированный документ с перечнем работ, стоимостью и условиями.</p>
+            </div>
+            <div class="document-meta">
+              <label class="field">
+                <span>Номер предложения</span>
+                <input type="text" id="estimate-number" inputmode="numeric" placeholder="Например, 001">
+              </label>
+              <label class="field">
+                <span>Дата</span>
+                <input type="date" id="estimate-date">
+              </label>
+            </div>
+          </div>
+        </section>
 
-    <section class="card positions-card" aria-labelledby="positions-title">
-      <h2 id="positions-title">Позиции</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Наименование</th>
-              <th scope="col">Количество</th>
-              <th scope="col">Единица</th>
-              <th scope="col">Цена</th>
-              <th scope="col">Сумма</th>
-              <th scope="col"><span class="visually-hidden">Удаление</span></th>
-            </tr>
-          </thead>
-          <tbody id="items"></tbody>
-        </table>
-      </div>
-      <button class="add-button no-print" id="add-item" type="button">+ Добавить позицию</button>
-      <div class="calculation-settings">
-        <label class="field">
-          <span>Скидка, %</span>
-          <input type="text" id="discount-rate" inputmode="decimal" value="0">
-        </label>
-        <label class="field">
-          <span>НДС, %</span>
-          <input type="text" id="vat-rate" inputmode="decimal" value="0">
-        </label>
-        <label class="field">
-          <span>Валюта</span>
-          <select id="currency">
-            <option value="₸">₸</option>
-            <option value="₽">₽</option>
-            <option value="$">$</option>
-            <option value="€">€</option>
-          </select>
-        </label>
-      </div>
-    </section>
+        <section class="section-block" aria-labelledby="details-title">
+          <div class="section-heading">
+            <span class="section-number">02</span>
+            <div>
+              <h2 id="details-title">Исполнитель и клиент</h2>
+              <p>Укажите стороны, для которых готовится документ.</p>
+            </div>
+          </div>
+          <div class="details-grid">
+            <label class="field">
+              <span>Исполнитель</span>
+              <input type="text" id="from" autocomplete="organization" placeholder="Компания или имя">
+            </label>
+            <label class="field">
+              <span>Клиент</span>
+              <input type="text" id="to" placeholder="Клиент или организация">
+            </label>
+          </div>
+        </section>
 
-    <section class="total-card" aria-label="Итоги сметы" aria-live="polite">
-      <div class="summary-row">
-        <span>Сумма</span>
-        <strong id="subtotal">0 ₸</strong>
-      </div>
-      <div class="summary-row" id="discount-row" hidden>
-        <span>Скидка</span>
-        <strong id="discount-total">0 ₸</strong>
-      </div>
-      <div class="summary-row" id="discounted-row" hidden>
-        <span>Сумма со скидкой</span>
-        <strong id="discounted-total">0 ₸</strong>
-      </div>
-      <div class="summary-row" id="vat-row" hidden>
-        <span>НДС</span>
-        <strong id="vat-total">0 ₸</strong>
-      </div>
-      <div class="summary-row grand-total-row">
-        <span>Итого к оплате</span>
-        <strong id="grand-total">0 ₸</strong>
-      </div>
-    </section>
+        <section class="section-block positions-card" aria-labelledby="positions-title">
+          <div class="section-heading">
+            <span class="section-number">03</span>
+            <div>
+              <h2 id="positions-title">Услуги и стоимость</h2>
+              <p>Добавьте работы или товары — итог пересчитается автоматически.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Наименование</th>
+                  <th scope="col">Кол-во</th>
+                  <th scope="col">Единица</th>
+                  <th scope="col">Цена</th>
+                  <th scope="col">Сумма</th>
+                  <th scope="col"><span class="visually-hidden">Удаление</span></th>
+                </tr>
+              </thead>
+              <tbody id="items"></tbody>
+            </table>
+          </div>
+          <button class="add-button no-print" id="add-item" type="button"><span aria-hidden="true">＋</span> Добавить услугу</button>
+          <div class="calculation-settings">
+            <label class="field">
+              <span>Скидка, %</span>
+              <input type="text" id="discount-rate" inputmode="decimal" value="0">
+            </label>
+            <label class="field">
+              <span>НДС, %</span>
+              <input type="text" id="vat-rate" inputmode="decimal" value="0">
+            </label>
+            <label class="field">
+              <span>Валюта</span>
+              <select id="currency">
+                <option value="₸">₸</option>
+                <option value="₽">₽</option>
+                <option value="$">$</option>
+                <option value="€">€</option>
+              </select>
+            </label>
+          </div>
+        </section>
 
-    <section class="card comment-card" aria-labelledby="comment-title">
-      <label class="field comment-field">
-        <span id="comment-title">Комментарий</span>
-        <textarea id="comment" placeholder="Например: сроки выполнения и условия оплаты"></textarea>
-        <span class="print-comment print-only" id="print-comment">—</span>
-      </label>
-    </section>
+        <section class="section-block comment-card" aria-labelledby="comment-title">
+          <div class="section-heading">
+            <span class="section-number">04</span>
+            <div>
+              <h2 id="comment-title">Условия и комментарии</h2>
+              <p>Добавьте сроки, порядок оплаты или важные детали.</p>
+            </div>
+          </div>
+          <label class="field comment-field">
+            <span class="visually-hidden">Условия и комментарии</span>
+            <textarea id="comment" placeholder="Например: срок выполнения — 10 рабочих дней, предоплата — 50%"></textarea>
+            <span class="print-comment print-only" id="print-comment">—</span>
+          </label>
+        </section>
 
-    <div class="actions no-print">
-      <button class="secondary-button new-estimate-button" id="new-estimate" type="button">Новая смета</button>
-      <button class="copy-button" id="copy-whatsapp" type="button">Скопировать для WhatsApp</button>
-      <button class="print-button" id="print-estimate" type="button">Сохранить PDF</button>
-      <span class="copy-status" id="copy-status" role="status" hidden>Скопировано ✓</span>
+        <section class="manual-copy no-print" id="manual-copy" aria-labelledby="manual-copy-title" hidden>
+          <label class="field">
+            <span id="manual-copy-title">Текст для копирования</span>
+            <textarea id="manual-copy-text" readonly></textarea>
+          </label>
+          <p>Автоматическое копирование недоступно. Выделите текст и скопируйте его вручную.</p>
+        </section>
+      </div>
+
+      <aside class="summary-panel" aria-label="Итоги предложения" aria-live="polite">
+        <div class="summary-kicker">Ваше предложение</div>
+        <div class="summary-total">
+          <span>Итого</span>
+          <strong id="grand-total">0 ₸</strong>
+        </div>
+        <div class="summary-details">
+          <div class="summary-row">
+            <span>Стоимость услуг</span>
+            <strong id="subtotal">0 ₸</strong>
+          </div>
+          <div class="summary-row" id="discount-row" hidden>
+            <span>Скидка</span>
+            <strong id="discount-total">0 ₸</strong>
+          </div>
+          <div class="summary-row" id="discounted-row" hidden>
+            <span>После скидки</span>
+            <strong id="discounted-total">0 ₸</strong>
+          </div>
+          <div class="summary-row" id="vat-row" hidden>
+            <span>НДС</span>
+            <strong id="vat-total">0 ₸</strong>
+          </div>
+        </div>
+        <div class="actions no-print">
+          <button class="print-button" id="print-estimate" type="button">Сохранить PDF <span aria-hidden="true">↗</span></button>
+          <button class="copy-button" id="copy-whatsapp" type="button">Скопировать для WhatsApp</button>
+          <span class="copy-status" id="copy-status" role="status" hidden>Скопировано ✓</span>
+        </div>
+        <p class="privacy-note no-print">Данные сохраняются только в этом браузере.</p>
+      </aside>
     </div>
-
-    <section class="card manual-copy no-print" id="manual-copy" aria-labelledby="manual-copy-title" hidden>
-      <label class="field">
-        <span id="manual-copy-title">Текст для копирования</span>
-        <textarea id="manual-copy-text" readonly></textarea>
-      </label>
-      <p>Автоматическое копирование недоступно. Выделите текст и скопируйте его вручную.</p>
-    </section>
 
     <div class="print-signature print-only">Подпись ____________________</div>
   </main>
