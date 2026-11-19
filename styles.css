@@ -237,6 +237,26 @@ h1 {
   padding-left: 96px;
 }
 
+.bank-details {
+  margin: 38px 0 0 96px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.bank-details h3 {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bank-details-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 24px;
+}
+
 .field {
   display: grid;
   gap: 9px;
@@ -715,6 +735,15 @@ td select:focus {
     padding-left: 54px;
   }
 
+  .bank-details {
+    margin-left: 54px;
+  }
+
+  .bank-details-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .document-meta {
     grid-template-columns: 1fr;
   }
@@ -842,6 +871,10 @@ td select:focus {
     margin-left: 0;
   }
 
+  .bank-details {
+    margin-left: 0;
+  }
+
   .add-button,
   .calculation-settings {
     margin-left: 0;
@@ -949,6 +982,29 @@ td select:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-column: 1 / -1;
     gap: 10mm;
+  }
+
+  .bank-details {
+    margin: 5mm 0 0;
+    padding-top: 3mm;
+    border-top: 1px solid #777;
+  }
+
+  .bank-details h3 {
+    margin-bottom: 3mm;
+    color: #000;
+    font-size: 10pt;
+  }
+
+  .bank-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 5mm;
+  }
+
+  .bank-details input {
+    min-height: 5mm;
+    border-bottom: 1px solid #777;
   }
 
   .field {

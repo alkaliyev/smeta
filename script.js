@@ -22,6 +22,9 @@ const printEstimateDate = document.querySelector("#print-estimate-date");
 const printComment = document.querySelector("#print-comment");
 const fromField = document.querySelector("#from");
 const toField = document.querySelector("#to");
+const bankIikField = document.querySelector("#bank-iik");
+const bankNameField = document.querySelector("#bank-name");
+const bankBikField = document.querySelector("#bank-bik");
 const newEstimateButton = document.querySelector("#new-estimate");
 const copyWhatsappButton = document.querySelector("#copy-whatsapp");
 const copyStatus = document.querySelector("#copy-status");
@@ -259,6 +262,9 @@ function getDraft() {
   return {
     from: fromField.value,
     to: toField.value,
+    bankIik: bankIikField.value,
+    bankName: bankNameField.value,
+    bankBik: bankBikField.value,
     number: estimateNumber.value,
     date: estimateDate.value,
     discountRate: discountRate.value,
@@ -293,6 +299,9 @@ function restoreDraft() {
     const draft = JSON.parse(savedDraft);
     fromField.value = draft.from || "";
     toField.value = draft.to || "";
+    bankIikField.value = draft.bankIik || "";
+    bankNameField.value = draft.bankName || "";
+    bankBikField.value = draft.bankBik || "";
     estimateNumber.value = draft.number || "";
     estimateDate.value = draft.date || getToday();
     discountRate.value = draft.discountRate ?? "0";
@@ -335,6 +344,9 @@ function resetEstimate() {
 
   fromField.value = "";
   toField.value = "";
+  bankIikField.value = "";
+  bankNameField.value = "";
+  bankBikField.value = "";
   estimateNumber.value = nextNumber;
   estimateDate.value = getToday();
   discountRate.value = "0";
