@@ -240,6 +240,7 @@ function addItem({ focus = true, item = {} } = {}) {
   row.querySelector(".item-name").value = safeItem.name || "";
   row.querySelector(".item-quantity").value = safeItem.quantity || "";
   row.querySelector(".item-price").value = safeItem.price || "";
+  row.querySelector(".item-note").value = safeItem.note || "";
 
   const unit = row.querySelector(".item-unit");
   if ([...unit.options].some((option) => option.value === safeItem.unit)) {
@@ -268,7 +269,8 @@ function getDraft() {
       name: row.querySelector(".item-name").value,
       quantity: row.querySelector(".item-quantity").value,
       unit: row.querySelector(".item-unit").value,
-      price: row.querySelector(".item-price").value
+      price: row.querySelector(".item-price").value,
+      note: row.querySelector(".item-note").value
     }))
   };
 }
@@ -359,15 +361,17 @@ function buildWhatsappText() {
     const name = row.querySelector(".item-name").value.trim();
     const quantityValue = row.querySelector(".item-quantity").value;
     const priceValue = row.querySelector(".item-price").value;
+    const note = row.querySelector(".item-note").value.trim();
     const quantity = parseNumber(quantityValue);
     const price = parseNumber(priceValue);
 
-    if (!name && !quantityValue.trim() && !priceValue.trim()) {
+    if (!name && !quantityValue.trim() && !priceValue.trim() && !note) {
       return;
     }
 
     const unit = row.querySelector(".item-unit").value;
-    lines.push(`• ${name || "Без наименования"} — ${formatNumber(quantity)} ${unit} × ${formatMoney(price)} = ${formatMoney(quantity * price)}`);
+    const noteText = note ? `; примечание: ${note}` : "";
+    lines.push(`• ${name || "Без наименования"} — ${formatNumber(quantity)} ${unit} × ${formatMoney(price)} = ${formatMoney(quantity * price)}${noteText}`);
   });
 
   if (calculation.discount !== 0) {

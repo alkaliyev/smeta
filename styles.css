@@ -309,28 +309,32 @@ th {
 }
 
 th:first-child {
-  width: 30%;
+  width: 31%;
   padding-left: 0;
 }
 
 th:nth-child(2) {
-  width: 13%;
+  width: 9%;
 }
 
 th:nth-child(3) {
-  width: 14%;
+  width: 10%;
 }
 
 th:nth-child(4) {
-  width: 17%;
+  width: 12%;
 }
 
 th:nth-child(5) {
-  width: 19%;
+  width: 15%;
+}
+
+th:nth-child(6) {
+  width: 17%;
 }
 
 th:last-child {
-  width: 48px;
+  width: 42px;
 }
 
 td {
@@ -341,6 +345,12 @@ td {
 
 td:first-child {
   padding-left: 0;
+}
+
+th:not(:first-child),
+td:not(:first-child) {
+  padding-right: 8px;
+  padding-left: 8px;
 }
 
 td input,
