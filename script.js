@@ -12,6 +12,7 @@ const discountedTotal = document.querySelector("#discounted-total");
 const vatRow = document.querySelector("#vat-row");
 const vatTotal = document.querySelector("#vat-total");
 const grandTotal = document.querySelector("#grand-total");
+const grandTotalWords = document.querySelector("#grand-total-words");
 const estimateDate = document.querySelector("#estimate-date");
 const estimateNumber = document.querySelector("#estimate-number");
 const comment = document.querySelector("#comment");
@@ -56,6 +57,100 @@ function formatMoney(value) {
   });
 
   return `${formatted.replace(/[\u00a0\u202f]/g, " ")} ${currency.value}`;
+}
+
+function getWordForm(value, forms) {
+  const lastTwoDigits = Math.abs(value) % 100;
+  const lastDigit = lastTwoDigits % 10;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+    return forms[2];
+  }
+
+  if (lastDigit === 1) {
+    return forms[0];
+  }
+
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return forms[1];
+  }
+
+  return forms[2];
+}
+
+function numberToWords(value) {
+  const safeValue = Number.isFinite(value) ? Math.round(value) : 0;
+  const absoluteValue = Math.abs(safeValue);
+
+  if (!Number.isSafeInteger(absoluteValue)) {
+    return "сумма слишком велика";
+  }
+
+  if (absoluteValue === 0) {
+    return "ноль";
+  }
+
+  const ones = [
+    ["", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"],
+    ["", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"]
+  ];
+  const teens = ["десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"];
+  const tens = ["", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"];
+  const hundreds = ["", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"];
+  const scales = [
+    null,
+    { forms: ["тысяча", "тысячи", "тысяч"], feminine: true },
+    { forms: ["миллион", "миллиона", "миллионов"] },
+    { forms: ["миллиард", "миллиарда", "миллиардов"] },
+    { forms: ["триллион", "триллиона", "триллионов"] },
+    { forms: ["квадриллион", "квадриллиона", "квадриллионов"] }
+  ];
+  const groups = [];
+  let remainder = absoluteValue;
+
+  while (remainder > 0) {
+    groups.push(remainder % 1000);
+    remainder = Math.floor(remainder / 1000);
+  }
+
+  const words = safeValue < 0 ? ["минус"] : [];
+
+  for (let index = groups.length - 1; index >= 0; index -= 1) {
+    const group = groups[index];
+    if (group === 0) {
+      continue;
+    }
+
+    words.push(hundreds[Math.floor(group / 100)]);
+    const lastTwoDigits = group % 100;
+
+    if (lastTwoDigits >= 10 && lastTwoDigits <= 19) {
+      words.push(teens[lastTwoDigits - 10]);
+    } else {
+      words.push(tens[Math.floor(lastTwoDigits / 10)]);
+      words.push(ones[scales[index]?.feminine ? 1 : 0][lastTwoDigits % 10]);
+    }
+
+    if (index > 0) {
+      words.push(getWordForm(group, scales[index].forms));
+    }
+  }
+
+  return words.filter(Boolean).join(" ");
+}
+
+function formatMoneyInWords(value) {
+  const safeValue = Number.isFinite(value) ? Math.round(value) : 0;
+  const currencyForms = {
+    "₸": ["тенге", "тенге", "тенге"],
+    "₽": ["рубль", "рубля", "рублей"],
+    "$": ["доллар", "доллара", "долларов"],
+    "€": ["евро", "евро", "евро"]
+  };
+  const forms = currencyForms[currency.value] || ["единица", "единицы", "единиц"];
+  const result = `${numberToWords(safeValue)} ${getWordForm(safeValue, forms)}`;
+
+  return result.charAt(0).toUpperCase() + result.slice(1);
 }
 
 function formatNumber(value) {
@@ -129,6 +224,7 @@ function updateTotals() {
   discountedTotal.textContent = formatMoney(calculation.afterDiscount);
   vatTotal.textContent = formatMoney(calculation.vat);
   grandTotal.textContent = formatMoney(calculation.total);
+  grandTotalWords.textContent = formatMoneyInWords(calculation.total);
 
   const hasDiscount = calculation.discount !== 0;
   discountRow.hidden = !hasDiscount;
@@ -283,6 +379,7 @@ function buildWhatsappText() {
   }
 
   lines.push(`Итого к оплате: ${formatMoney(calculation.total)}`);
+  lines.push(`Сумма прописью: ${formatMoneyInWords(calculation.total)}`);
   return lines.join("\n");
 }
 
